@@ -12,6 +12,8 @@ psycopg2-binary = "*"
 drf-spectacular = "*"
 django-cors-headers = "*"
 djoser = "*"
+gunicorn = "*"
+whitenoise = "*"
 
 [dev-packages]
 black = "*"
