@@ -143,3 +143,10 @@ REST_FRAMEWORK = {
     ],
     "DEFAULT_SCHEMA_CLASS": "drf_spectacular.openapi.AutoSchema",
 }
+
+SPECTACULAR_SETTINGS = {
+    "TITLE": "Social Cards API",
+    "DESCRIPTION": "Documentation for Social Cards, an API for a social greeting card sharing platform.",
+    "VERSION": "1.0.0",
+    "SWAGGER_UI_DIST": "//unpkg.com/swagger-ui-dist@5.7.1",
+}
