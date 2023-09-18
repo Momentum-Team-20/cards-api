@@ -3,6 +3,8 @@ from rest_framework import serializers
 
 
 class CardSerializer(serializers.ModelSerializer):
+    creator = serializers.ReadOnlyField(source="creator.username")
+
     class Meta:
         model = Card
         fields = "__all__"
