@@ -1,5 +1,6 @@
 from django.shortcuts import render
-from rest_framework import viewsets, permissions
+from rest_framework import viewsets, permissions, response
+from rest_framework.decorators import action
 from .models import Card
 from .serializers import CardSerializer
 
@@ -14,3 +15,8 @@ class CardViewSet(viewsets.ModelViewSet):
 
     def get_queryset(self):
         return self.queryset.filter(draft=False)
+
+    @action(detail=False, methods=["get"])
+    def me(self, request):
+        cards = self.queryset.filter(creator=request.user)
+        return response.Response(self.serializer_class(cards, many=True).data)
