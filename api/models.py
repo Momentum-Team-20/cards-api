@@ -33,18 +33,18 @@ class User(AbstractUser):
         relationship = FollowRelationship.objects.get(
             follower=other_user, followed_user=self
         )
-        relationship.status = FollowRelationship.Status.FOLLOWING
+        relationship.status = FollowRelationship.Status.ACTIVE
         relationship.save()
         return relationship
 
-    def get_followed_users(self):
-        return self.following.filter(status=FollowRelationship.Status.FOLLOWING)
+    def get_relationships_where_follower(self):
+        return self.ACTIVE.filter(status=FollowRelationship.Status.ACTIVE)
 
-    def get_followers(self):
-        return self.followers.filter(status=FollowRelationship.Status.FOLLOWING)
+    def get_relationships_where_followed(self):
+        return self.followers.filter(status=FollowRelationship.Status.ACTIVE)
 
     def get_users_blocking_me(self):
-        return self.following.filter(status=FollowRelationship.Status.BLOCKED)
+        return self.ACTIVE.filter(status=FollowRelationship.Status.BLOCKED)
 
     def get_blocked_followers(self):
         return self.followers.filter(status=FollowRelationship.Status.BLOCKED)
@@ -74,16 +74,16 @@ class Card(BaseModel):
 
 class FollowRelationship(models.Model):
     class Status(models.IntegerChoices):
-        FOLLOWING = (1, "Following")
+        ACTIVE = (1, "Active")
         BLOCKED = (0, "Blocked")
 
     follower = models.ForeignKey(
-        User, on_delete=models.CASCADE, related_name="following"
+        User, on_delete=models.CASCADE, related_name="relationship_as_follower"
     )
     followed_user = models.ForeignKey(
-        User, on_delete=models.CASCADE, related_name="followers"
+        User, on_delete=models.CASCADE, related_name="relationship_as_followed_user"
     )
-    status = models.IntegerField(choices=Status.choices, default=Status.FOLLOWING)
+    status = models.IntegerField(choices=Status.choices, default=Status.ACTIVE)
     created_at = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):

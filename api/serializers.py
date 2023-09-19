@@ -1,4 +1,4 @@
-from .models import Card
+from .models import Card, User
 from rest_framework import serializers
 
 
@@ -9,3 +9,13 @@ class CardSerializer(serializers.ModelSerializer):
         model = Card
         fields = "__all__"
         read_only_fields = ["id", "created_at", "updated_at", "creator"]
+
+
+class FollowerUserSerializer(serializers.ModelSerializer):
+    relationship_created = serializers.SlugRelatedField(
+        slug_field="created_at", read_only=True
+    )
+
+    class Meta:
+        model = User
+        fields = ["id", "username", "relationship_created"]
