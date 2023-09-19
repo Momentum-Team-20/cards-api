@@ -1,4 +1,4 @@
-from .models import Card, User
+from .models import Card, User, FollowRelationship
 from rest_framework import serializers
 
 
@@ -19,3 +19,15 @@ class FollowerUserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
         fields = ["id", "username", "relationship_created"]
+
+
+class FollowRelationshipSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = FollowRelationship
+        fields = "__all__"
+        read_only_fields = [
+            "id",
+            "created_at",
+            "updated_at",
+            "follower",
+        ]

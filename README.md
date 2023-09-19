@@ -16,4 +16,6 @@
 - unfollow another user
 - block and unblock another user who follows you
 - list all the users you follow
+- list all the users who follow you
 - A README with endpoints documented
+
