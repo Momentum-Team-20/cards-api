@@ -62,14 +62,24 @@ class Card(BaseModel):
     creator = models.ForeignKey(User, on_delete=models.CASCADE, related_name="cards")
     front_text = models.CharField(max_length=255)
     back_text = models.CharField(max_length=255, null=True, blank=True)
-    background_color = models.CharField(max_length=255)
+    imageURL = models.URLField(max_length=200, null=True, blank=True)
+    background_color = models.CharField(max_length=255, null=True, blank=True)
     font = models.CharField(max_length=255, null=True, blank=True)
     draft = models.BooleanField(
         default=False
-    )  # false because front end may not implemet draft feature
+    )  # false because front end may not implement draft feature
 
     def __str__(self):
         return f"Card: {self.front_text}"
+
+
+class CardStyleDeclaration(models.Model):
+    card = models.ForeignKey(Card, on_delete=models.CASCADE, related_name="styles")
+    property = models.CharField(max_length=255)
+    value = models.CharField(max_length=255)
+
+    def __str__(self):
+        return f"Card {self.card.pk} style - {self.property}: {self.value}"
 
 
 class FollowRelationship(models.Model):
