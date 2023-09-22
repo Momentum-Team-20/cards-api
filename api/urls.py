@@ -11,11 +11,23 @@ from .views import (
     FollowersListView,
     FollowRelationshipCreateView,
     FollowRelationshipDestroyView,
+    CardStyleDeclarationListCreateView,
+    CardStyleDeclarationUpdateView,
 )
 
 
 urlpatterns = [
     path("", include(router.urls)),
+    path(
+        "cards/<int:card_pk>/styles/",
+        CardStyleDeclarationListCreateView.as_view(),
+        name="card-styles",
+    ),
+    path(
+        "cards/<int:card_pk>/styles/edit/",
+        CardStyleDeclarationUpdateView.as_view(),
+        name="card-style-edit",
+    ),
     path("users/followed", FollowedUsersListView.as_view(), name="followed"),
     path("users/followers", FollowersListView.as_view(), name="followers"),
     path("follows/", FollowRelationshipCreateView.as_view(), name="follows"),

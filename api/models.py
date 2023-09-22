@@ -78,6 +78,13 @@ class CardStyleDeclaration(models.Model):
     property = models.CharField(max_length=255)
     value = models.CharField(max_length=255)
 
+    class Meta:
+        constraints = [
+            models.UniqueConstraint(
+                fields=["property", "card"], name="no duplicate properties per card"
+            )
+        ]
+
     def __str__(self):
         return f"Card {self.card.pk} style - {self.property}: {self.value}"
 

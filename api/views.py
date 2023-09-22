@@ -1,14 +1,21 @@
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 from rest_framework import viewsets, permissions, response
-from rest_framework.generics import ListAPIView, CreateAPIView, DestroyAPIView
+from rest_framework.generics import (
+    ListAPIView,
+    CreateAPIView,
+    DestroyAPIView,
+    UpdateAPIView,
+    ListCreateAPIView,
+)
 from rest_framework.decorators import action
 from rest_framework.exceptions import ValidationError
 from django.db import IntegrityError
-from .models import Card, User, FollowRelationship
+from .models import Card, User, FollowRelationship, CardStyleDeclaration
 from .serializers import (
     CardSerializer,
     FollowerUserSerializer,
     FollowRelationshipSerializer,
+    CardStyleDeclarationSerializer,
 )
 from .permissions import IsCreatorOrReadOnly
 
@@ -100,9 +107,56 @@ class FollowRelationshipDestroyView(DestroyAPIView):
             followed_user_id=self.kwargs[self.lookup_url_kwarg],
         )
 
-    # def perform_destroy(self, request, *args, **kwargs):
-    #     instance = self.get_object()
-    #     if instance.follower != request.user:
-    #         raise ValidationError("You can only delete your own follow relationships.")
-    #     else:
-    #         return super().perform_destroy(request, *args, **kwargs)
+
+class CardStyleDeclarationListCreateView(ListCreateAPIView):
+    """
+    Get or create a style declaration for a card. The card must belong to the logged in user in order to save styles for it.
+    Properties and values are not validated to be valid CSS properties or values. If a property already exists, it will be ignored.
+    To update properties, use the PATCH method.
+    """
+
+    queryset = CardStyleDeclaration.objects.all()
+    serializer_class = CardStyleDeclarationSerializer
+    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
+
+    def perform_create(self, serializer):
+        card = Card.objects.get(pk=self.kwargs["card_pk"])
+        if card.creator != self.request.user:
+            raise ValidationError(
+                "You must be the author of the card to save styles for it."
+            )
+        serializer.save(card=card)
+
+    def get_serializer(self, *args, **kwargs):
+        if isinstance(kwargs.get("data", {}), list):
+            kwargs["many"] = True
+        return super().get_serializer(*args, **kwargs)
+
+
+class CardStyleDeclarationUpdateView(UpdateAPIView):
+    """
+    Update a style declaration for a card. The card must belong to the logged in user in order to save styles for it.
+    Properties and values are not validated to be valid CSS properties or values.
+    """
+
+    queryset = CardStyleDeclaration.objects.all()
+    serializer_class = CardStyleDeclarationSerializer
+    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
+
+    def get_object(self):
+        return get_object_or_404(
+            self.request.user.cards.all(), pk=self.kwargs["card_pk"]
+        )
+
+    def perform_update(self, serializer):
+        card = Card.objects.get(pk=self.kwargs["card_pk"])
+        if card.creator != self.request.user:
+            raise ValidationError(
+                "You must be the author of the card to save styles for it."
+            )
+        serializer.save(card=card)
+
+    def get_serializer(self, *args, **kwargs):
+        if isinstance(kwargs.get("data", {}), list):
+            kwargs["many"] = True
+        return super().get_serializer(*args, **kwargs)
