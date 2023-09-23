@@ -163,7 +163,7 @@ CORS_ALLOW_ALL_ORIGINS = True
 
 if env("PRODUCTION"):
     sentry_sdk.init(
-        dsn="https://0cdcab62fa9091184d506e5d45f6c9ac@o4505901559513088.ingest.sentry.io/4505901559644160",
+        dsn=env("SENTRY_DSN"),
         integrations=[DjangoIntegration()],
         # If you wish to associate users to errors (assuming you are using
         # django.contrib.auth) you may enable sending PII data.
