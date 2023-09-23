@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "39adb03e737af7a75132e46e258eb69373a3e3e696eac3c56e9507a1e5b7df77"
+            "sha256": "a3c7a10f7ad07807da782b988e0d69f6a68cbabe60c00eeadc80b13bf499c304"
         },
         "pipfile-spec": 6,
         "requires": {
@@ -298,12 +298,12 @@
         },
         "drf-spectacular": {
             "hashes": [
-                "sha256:8f5a8f87353d1bb8dcb3f3909b7109b2dcbe1d91f3e069409cf322963e140bd6",
-                "sha256:afeccc6533dcdb4e78afbfcc49f3c5e9c369aeb62f965e4d1a43b165449c147a"
+                "sha256:aee55330a774ba8a9cbdb125714d1c9ee05a8aafd3ce3be8bfd26527649aeb44",
+                "sha256:c0002a820b11771fdbf37853deb371947caf0159d1afeeffe7598e964bc1db94"
             ],
             "index": "pypi",
             "markers": "python_version >= '3.6'",
-            "version": "==0.26.4"
+            "version": "==0.26.5"
         },
         "gunicorn": {
             "hashes": [
@@ -641,6 +641,14 @@
             "markers": "python_version >= '3.8'",
             "version": "==0.10.3"
         },
+        "sentry-sdk": {
+            "hashes": [
+                "sha256:64a7141005fb775b9db298a30de93e3b83e0ddd1232dc6f36eb38aebc1553291",
+                "sha256:6de2e88304873484207fed836388e422aeff000609b104c802749fd89d56ba5b"
+            ],
+            "index": "pypi",
+            "version": "==1.31.0"
+        },
         "social-auth-app-django": {
             "hashes": [
                 "sha256:2e71234656ddebe0c5b5ad450d42ee49f52a3f2d1708687fccf2a2c92d31a624",
@@ -678,7 +686,7 @@
                 "sha256:13abf37382ea2ce6fb744d4dad67838eec857c9f4f57009891805e0b5e123594",
                 "sha256:ef16afa8ba34a1f989db38e1dbbe0c302e4289a47856990d0682e374563ce35e"
             ],
-            "markers": "python_version >= '3.7'",
+            "markers": "python_version >= '3.6'",
             "version": "==2.0.5"
         },
         "whitenoise": {

@@ -14,6 +14,7 @@ django-cors-headers = "*"
 djoser = "*"
 gunicorn = "*"
 whitenoise = "*"
+sentry-sdk = "*"
 
 [dev-packages]
 black = "*"
