@@ -31,6 +31,11 @@ class CardViewSet(viewsets.ModelViewSet):
     def get_queryset(self):
         return self.queryset.filter(draft=False)
 
+    def get_permissions(self):
+        if self.request.method in permissions.SAFE_METHODS:
+            return [permissions.AllowAny()]
+        return super().get_permissions()
+
     @action(detail=False, methods=["get"])
     def me(self, request):
         cards = self.queryset.filter(creator=request.user)

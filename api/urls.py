@@ -3,9 +3,6 @@ from django.urls import path, include
 from .views import CardViewSet
 from drf_spectacular.views import SpectacularAPIView, SpectacularSwaggerView
 from rest_framework import routers
-
-router = routers.DefaultRouter()
-router.register("cards", CardViewSet, basename="cards")
 from .views import (
     FollowedUsersListView,
     FollowersListView,
@@ -15,6 +12,8 @@ from .views import (
     CardStyleDeclarationUpdateView,
 )
 
+router = routers.DefaultRouter()
+router.register("cards", CardViewSet, basename="cards")
 
 urlpatterns = [
     path("", include(router.urls)),
