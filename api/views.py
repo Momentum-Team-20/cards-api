@@ -21,7 +21,7 @@ from .permissions import IsCreatorOrReadOnly
 
 
 class CardViewSet(viewsets.ModelViewSet):
-    queryset = Card.objects.all().order_by("created_at")
+    queryset = Card.objects.all().order_by("-created_at")
     serializer_class = CardSerializer
     permission_classes = [IsCreatorOrReadOnly]
 
