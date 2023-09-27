@@ -76,13 +76,21 @@ class Card(BaseModel):
 class CardStyleDeclaration(models.Model):
     card = models.ForeignKey(Card, on_delete=models.CASCADE, related_name="styles")
     property = models.CharField(max_length=255)
-    value = models.CharField(max_length=255)
+    value = models.CharField(max_length=255, null=True, blank=True)
+    boolValue = models.BooleanField(null=True, blank=True)
 
     class Meta:
         constraints = [
             models.UniqueConstraint(
                 fields=["property", "card"], name="no duplicate properties per card"
-            )
+            ),
+            models.CheckConstraint(
+                check=(
+                    models.Q(value__isnull=False) & models.Q(boolValue__isnull=True)
+                    | models.Q(boolValue__isnull=False) & models.Q(value__isnull=True)
+                ),
+                name="one_of_two_fields_null_constraint",
+            ),
         ]
 
     def __str__(self):
