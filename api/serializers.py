@@ -38,11 +38,19 @@ class CardStyleDeclarationSerializer(serializers.ModelSerializer):
 class CardSerializer(serializers.ModelSerializer):
     creator = serializers.ReadOnlyField(source="creator.username")
     styles = CardStyleDeclarationSerializer(many=True, read_only=True)
+    creator_id = serializers.ReadOnlyField(source="creator.id")
 
     class Meta:
         model = Card
         fields = "__all__"
-        read_only_fields = ["id", "created_at", "updated_at", "creator", "styles"]
+        read_only_fields = [
+            "id",
+            "creator",
+            "creator_id",
+            "created_at",
+            "updated_at",
+            "styles",
+        ]
 
 
 class FollowerUserSerializer(serializers.ModelSerializer):
