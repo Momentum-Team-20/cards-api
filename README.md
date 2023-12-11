@@ -1,8 +1,8 @@
 # Social Cards API
 
-### What you can use this API to do
+Documentation for endpoints in the QuestionBox API is available at https://social-cards.fly.dev/api/docs/
 
-⚠️ Be sure to test that you have implemented permissions-checking correctly for these endpoints. For example, your API should not allow a user who is not the creator of a card to update that card.
+### What you can use this API to do
 
 - token login, logout, and register (i.e., create a new user)
 - list all cards
