@@ -1,5 +1,5 @@
 from django.shortcuts import render, get_object_or_404
-from rest_framework import viewsets, permissions, response
+from rest_framework import viewsets, permissions, response, status
 from rest_framework.generics import (
     ListAPIView,
     CreateAPIView,
@@ -36,8 +36,13 @@ class CardViewSet(viewsets.ModelViewSet):
             return [permissions.AllowAny()]
         return super().get_permissions()
 
-    @action(detail=False, methods=["get"])
+    @action(detail=False)
     def me(self, request):
+        if not request.user.is_authenticated:
+            return response.Response(
+                {"error": "You need to be logged in."},
+                status=status.HTTP_401_UNAUTHORIZED,
+            )
         cards = self.queryset.filter(creator=request.user)
         return response.Response(self.serializer_class(cards, many=True).data)
 
