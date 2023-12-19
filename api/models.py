@@ -65,6 +65,8 @@ class Card(BaseModel):
     imageURL = models.URLField(max_length=200, null=True, blank=True)
     background_color = models.CharField(max_length=255, null=True, blank=True)
     font = models.CharField(max_length=255, null=True, blank=True)
+    font_size = models.CharField(max_length=255, null=True, blank=True)
+    text_align = models.CharField(max_length=255, null=True, blank=True)
     draft = models.BooleanField(
         default=False
     )  # false because front end may not implement draft feature
