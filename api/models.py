@@ -64,6 +64,7 @@ class Card(BaseModel):
     back_text = models.CharField(max_length=255, null=True, blank=True)
     imageURL = models.URLField(max_length=200, null=True, blank=True)
     background_color = models.CharField(max_length=255, null=True, blank=True)
+    back_background_color = models.CharField(max_length=255, null=True, blank=True)
     font = models.CharField(max_length=255, null=True, blank=True)
     font_size = models.CharField(max_length=255, null=True, blank=True)
     text_align = models.CharField(max_length=255, null=True, blank=True)
