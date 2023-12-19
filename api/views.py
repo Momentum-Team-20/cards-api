@@ -1,5 +1,5 @@
 from django.shortcuts import render, get_object_or_404
-from rest_framework import viewsets, permissions, response, status
+from rest_framework import viewsets, permissions, response, status, filters
 from rest_framework.generics import (
     ListAPIView,
     CreateAPIView,
@@ -21,9 +21,16 @@ from .permissions import IsCreatorOrReadOnly
 
 
 class CardViewSet(viewsets.ModelViewSet):
+    """
+    Handle retrieve, create, edit, and destroy for cards.
+    Allow full-text search on title, body, and tags via ?search=term.
+    """
+
     queryset = Card.objects.all().order_by("-created_at")
     serializer_class = CardSerializer
     permission_classes = [IsCreatorOrReadOnly]
+    filter_backends = [filters.SearchFilter]
+    search_fields = ["front_text", "back_text", "creator__username"]
 
     def perform_create(self, serializer):
         serializer.save(creator=self.request.user)
