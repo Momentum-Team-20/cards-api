@@ -154,6 +154,14 @@ class CardStyleDeclarationUpdateView(UpdateAPIView):
     """
     Update a style declaration for a card. The card must belong to the logged in user in order to save styles for it.
     Properties and values are not validated to be valid CSS properties or values.
+    The body of the request should be an array of objects with the following shape:
+    [
+        {
+            "property": "property-name",
+            "value": "property-value",
+            "boolValue": true
+        }
+    ]
     """
 
     queryset = CardStyleDeclaration.objects.all()
@@ -171,9 +179,9 @@ class CardStyleDeclarationUpdateView(UpdateAPIView):
             raise ValidationError(
                 "You must be the author of the card to save styles for it."
             )
+        if not isinstance(serializer.validated_data, list):
+            serializer.validated_data = [serializer.validated_data]
         serializer.save(card=card)
 
     def get_serializer(self, *args, **kwargs):
-        if isinstance(kwargs.get("data", {}), list):
-            kwargs["many"] = True
-        return super().get_serializer(*args, **kwargs)
+        return super().get_serializer(*args, many=True, **kwargs)
